@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bioma Inc. — Plano de Marketing</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f3ef;color:#1a1a1a;min-height:100vh}
+
+/* NAV */
+nav{background:#1A3C2A;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100}
+.nav-logo{color:#fff;font-size:15px;font-weight:500;letter-spacing:.02em}
+.nav-logo span{opacity:.6;font-weight:400}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{background:transparent;border:none;color:rgba(255,255,255,.6);font-size:12px;padding:6px 14px;border-radius:6px;cursor:pointer;transition:all .15s;font-family:inherit}
+.nav-tab:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-tab.active{background:rgba(255,255,255,.15);color:#fff}
+
+/* HERO */
+.hero{background:#1A3C2A;padding:2.5rem 2rem 2rem;color:#fff}
+.hero h1{font-size:26px;font-weight:500;margin-bottom:.4rem}
+.hero p{font-size:13px;opacity:.65;max-width:600px;line-height:1.6}
+.hero-stats{display:flex;gap:2rem;margin-top:1.5rem;flex-wrap:wrap}
+.hero-stat{border-left:2px solid rgba(255,255,255,.2);padding-left:1rem}
+.hero-stat-n{font-size:22px;font-weight:500}
+.hero-stat-l{font-size:11px;opacity:.55;margin-top:2px}
+
+/* MAIN */
+main{max-width:1100px;margin:0 auto;padding:2rem}
+
+/* SECTIONS */
+.section{display:none}
+.section.active{display:block}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.5rem}
+.stat-card{background:#fff;border:0.5px solid #e0ddd6;border-radius:10px;padding:14px 16px}
+.stat-card-n{font-size:22px;font-weight:500;color:#1A3C2A}
+.stat-card-l{font-size:11px;color:#888;margin-top:3px}
+
+/* FILTERS */
+.filters-wrap{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.75rem}
+.fbtn{font-size:11px;padding:5px 12px;border-radius:20px;border:0.5px solid #ccc;background:#fff;color:#555;cursor:pointer;transition:all .15s;font-family:inherit}
+.fbtn:hover{border-color:#888}
+.fbtn.active{color:#fff;border-color:transparent}
+.month-wrap{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.mbtn{font-size:11px;padding:4px 10px;border-radius:14px;border:0.5px solid #ddd;background:#fff;color:#666;cursor:pointer;transition:all .15s;font-family:inherit}
+.mbtn:hover{border-color:#999}
+.mbtn.active{background:#1A3C2A;color:#fff;border-color:#1A3C2A}
+
+/* BOARD */
+.month-group{margin-bottom:1.75rem}
+.month-hd{font-size:11px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:.07em;padding-bottom:8px;border-bottom:0.5px solid #e0ddd6;margin-bottom:10px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+
+/* CARD */
+.card{background:#fff;border:0.5px solid #e0ddd6;border-radius:10px;border-left:3px solid #ccc;cursor:pointer;transition:border-color .15s;overflow:hidden}
+.card:hover{border-color:#bbb}
+.card-head{padding:14px 16px 10px}
+.card-type-pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:7px}
+.card-title{font-size:13px;font-weight:500;color:#1a1a1a;line-height:1.35;margin-bottom:4px}
+.card-date{font-size:11px;color:#999}
+.card-foot{padding:8px 16px;border-top:0.5px solid #f0ede8;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pill{font-size:10px;padding:2px 8px;border-radius:10px;border:0.5px solid #e0ddd6;color:#666;background:#fafaf8}
+.expand-btn{margin-left:auto;font-size:11px;color:#aaa;white-space:nowrap}
+.detail{display:none;border-top:0.5px solid #f0ede8;padding:12px 16px}
+.detail.open{display:block}
+.detail-row{display:flex;gap:10px;padding:5px 0;border-bottom:0.5px solid #f0ede8;font-size:12px}
+.detail-row:last-child{border-bottom:none}
+.detail-key{font-weight:500;color:#444;min-width:100px;flex-shrink:0;font-size:11px}
+.detail-val{color:#666;line-height:1.5;font-size:11px}
+.empty-msg{padding:3rem;text-align:center;color:#aaa;font-size:13px}
+
+/* GANTT */
+.gantt-wrap{background:#fff;border:0.5px solid #e0ddd6;border-radius:12px;overflow-x:auto;padding:1.5rem}
+.gantt-svg-wrap{min-width:720px}
+.gantt-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid #f0ede8}
+.gantt-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
+.gantt-legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+/* PARCEIROS */
+.parceiros-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.parceiro-card{background:#fff;border:0.5px solid #e0ddd6;border-radius:10px;padding:14px 16px}
+.parceiro-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.parceiro-avatar{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.parceiro-name{font-size:13px;font-weight:500;color:#1a1a1a}
+.parceiro-seg{font-size:11px;color:#999}
+.parceiro-body{font-size:11px;color:#666;line-height:1.55}
+.parceiro-tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:8px;margin-top:8px;margin-right:4px}
+
+@media(max-width:600px){
+  .hero-stats{gap:1rem}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  nav{padding:0 1rem}
+  main{padding:1rem}
+  .hero{padding:1.5rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">bioma<span> inc.</span> &nbsp;·&nbsp; <span>Plano de marketing</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('acoes')">Ações</button>
+    <button class="nav-tab" onclick="showSection('gantt')">Gantt</button>
+    <button class="nav-tab" onclick="showSection('parceiros')">Parceiros</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Plano de marketing estratégico</h1>
+  <p>Mix de canais: OOH · Digital · Eventos no stand · Eventos em local parceiro · Influencers · Marcas parceiras · Patrocínio de valet · Relacionamento VIP</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-n" id="hn-total">46</div><div class="hero-stat-l">ações no plano</div></div>
+    <div class="hero-stat"><div class="hero-stat-n">8</div><div class="hero-stat-l">meses (Mai–Dez)</div></div>
+    <div class="hero-stat"><div class="hero-stat-n">8</div><div class="hero-stat-l">pilares de ação</div></div>
+    <div class="hero-stat"><div class="hero-stat-n">4</div><div class="hero-stat-l">projetos cobertos</div></div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══ SEÇÃO AÇÕES ══ -->
+<div class="section active" id="sec-acoes">
+  <div class="stats-row" id="stats-row"></div>
+  <div class="filters-wrap" id="filters"></div>
+  <div class="month-wrap" id="monthFilters"></div>
+  <div id="board"></div>
+</div>
+
+<!-- ══ SEÇÃO GANTT ══ -->
+<div class="section" id="sec-gantt">
+  <div class="gantt-wrap">
+    <div class="gantt-svg-wrap" id="gantt-container"></div>
+    <div class="gantt-legend" id="gantt-legend"></div>
+  </div>
+</div>
+
+<!-- ══ SEÇÃO PARCEIROS ══ -->
+<div class="section" id="sec-parceiros">
+  <div class="parceiros-grid" id="parceiros-grid"></div>
+</div>
+
+</main>
+
+<script>
+const TIPOS = {
+  "OOH":                      {bg:"#185FA5",light:"#ddeeff",dark:"#0C447C"},
+  "Digital":                  {bg:"#3B6D11",light:"#e4f2d0",dark:"#27500A"},
+  "Evento no Stand":          {bg:"#BA7517",light:"#faeeda",dark:"#633806"},
+  "Evento em Local Parceiro": {bg:"#993C1D",light:"#faece7",dark:"#712B13"},
+  "Influencer":               {bg:"#534AB7",light:"#eeedfe",dark:"#3C3489"},
+  "Marca Parceira":           {bg:"#0F6E56",light:"#dff2ea",dark:"#085041"},
+  "Patrocínio":               {bg:"#993556",light:"#fbeaf0",dark:"#72243E"},
+  "Relacionamento VIP":       {bg:"#444441",light:"#f1efe8",dark:"#2C2C2A"},
+};
+
+const MESES = ["Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+
+const ACOES = [
+  {mes:"Maio",tipo:"Digital",projeto:"Bioma",titulo:"Campanha geo — Agrishow",data:"27/Abr–01/Mai",canal:"Meta Ads + Google Ads",objetivo:"Awareness · Base Agro",publico:"Ruralistas, agroinvestidores e pecuaristas presentes na Agrishow",parceiro:"Agência digital parceira",responsavel:"RAZ",investimento:"R$ 2.000–4.000",obs:"Anúncios geolocalizados em raio de 5 km do evento. Landing page com formulário agro. Pixel ativo. Base será usada em campanhas futuras."},
+  {mes:"Maio",tipo:"Digital",projeto:"Bioma",titulo:"Campanha geo — SP Innovation Week",data:"13–15/Mai",canal:"Meta Ads + Google Ads",objetivo:"Awareness · Investidores",publico:"Empreendedores, C-level e investidores presentes na SPIW",parceiro:"Agência digital parceira",responsavel:"RAZ",investimento:"R$ 1.500–3.000",obs:"Anúncios geolocalizados no Pacaembu e na FAAP durante o evento. Sem custo de estande."},
+  {mes:"Maio",tipo:"Evento no Stand",projeto:"Bioma",titulo:"Sessão de yoga no stand — manhã de bem-estar",data:"Mai — sábado manhã",canal:"Evento no Stand + Instagram",objetivo:"Awareness · Compradores",publico:"Moradores do bairro, leads do CRM e prospects da vizinhança",parceiro:"Professora de yoga local (a mapear pela assessoria)",responsavel:"Bioma",investimento:"R$ 800–1.500",obs:"Café ao final com Leveda ou A Fornada — co-divulgação mútua. Máximo de 20 participantes. Assessoria indica e contata a professora."},
+  {mes:"Maio",tipo:"Evento no Stand",projeto:"Bioma",titulo:"Sessão de pilates no stand",data:"Mai — sábado manhã",canal:"Evento no Stand + Instagram",objetivo:"Awareness · Compradores",publico:"Leads quentes do CRM e moradores próximos",parceiro:"TC Pilates Perdizes (@tcpilates_studios, 44k seg.)",responsavel:"Bioma",investimento:"R$ 800–1.500",obs:"TC Pilates co-divulga nas redes. Assessoria faz o contato e articula a parceria com o estúdio."},
+  {mes:"Maio",tipo:"Evento no Stand",projeto:"Bioma",titulo:"Degustação de whisky japonês — VIP Suntory",data:"Mai — noite (quinta ou sexta)",canal:"Evento no Stand · VIP",objetivo:"Investidores · Vendas",publico:"Prospects VIP e leads quentes com perfil investidor",parceiro:"The House of Suntory (@thehouseofsuntory)",responsavel:"Bioma",investimento:"R$ 3.000–5.000",obs:"Degustação de Yamazaki, Hibiki e Hakushu com harmonização premium. Assessoria faz o contato com a marca. Follow-up comercial 48h após o evento."},
+  {mes:"Maio",tipo:"OOH",projeto:"Bioma",titulo:"Eletromidia — elevadores premium (1ª fase)",data:"Mai–Jun",canal:"OOH · Eletromidia",objetivo:"Awareness",publico:"Executivos, moradores de alto padrão e tomadores de decisão",parceiro:"Eletromidia",responsavel:"Assessoria",investimento:"R$ 5.000–10.000/mês",obs:"Bairros: Jardins, Itaim, Pinheiros, Perdizes e Vila Olímpia. Negociar pacote Mai–Out para desconto por volume."},
+  {mes:"Maio",tipo:"Patrocínio",projeto:"Apinajés",titulo:"Valet patrocinado — Manihi Sushi (5 noites)",data:"Mai — 5 noites a combinar",canal:"Patrocínio · PDV Premium",objetivo:"Awareness · Compradores",publico:"Clientes do Manihi — perfil alto padrão, moradores e frequentadores da região",parceiro:"Manihi Sushi — Ricardo Tavares (@restaurantemanihisushi, 75,7k) — Rua Apinajés, 1359",responsavel:"Assessoria",investimento:"R$ 1.500–2.500",obs:"10 valets × 5 noites. Card do Bioma com QR Code entregue junto ao ticket do valet."},
+  {mes:"Maio",tipo:"Marca Parceira",projeto:"Bioma",titulo:"Philco + Britânia — stand equipado",data:"Contínuo a partir de Mai",canal:"Co-branding · Instagram",objetivo:"Awareness",publico:"Visitantes do stand e seguidores das marcas",parceiro:"Philco (@philcobrasil) + Britânia (@britaniaeletros) — clientes da assessoria",responsavel:"Assessoria",investimento:"Permuta",obs:"Permuta: eletrodomésticos no stand em troca de presença de marca e posts conjuntos. RAZ apoia a criação dos materiais de co-branding."},
+  {mes:"Maio",tipo:"Relacionamento VIP",projeto:"Bioma",titulo:"Festival TUCCA | Le Cordon Bleu — patrocínio e cotas",data:"16/Mai",canal:"Evento em Local Parceiro · VIP",objetivo:"Relacionamento · Investidores",publico:"Executivos, famílias de alto padrão, doadores e entusiastas da gastronomia",parceiro:"TUCCA + Le Cordon Bleu São Paulo — Instituto de Artes Culinárias",responsavel:"Assessoria",investimento:"R$ 2.000–5.000",obs:"Assessoria acessa o contato com o festival. Patrocínio de uma aula ou degustação com a marca Bioma. Distribuição de cotas VIP a prospects e parceiros estratégicos. 100% da renda revertida à TUCCA."},
+  {mes:"Junho",tipo:"Evento em Local Parceiro",projeto:"Apinajés",titulo:"Noite de vinho — Cacho Bar",data:"Jun — quinta à noite",canal:"Evento em Local Parceiro",objetivo:"Awareness · Compradores",publico:"Leads do bairro Perdizes/Sumaré e prospects do pipeline",parceiro:"Cacho Bar — Leandra Lima (@cachobar_sp, 12,9k) — Rua Apinajés, 1649",responsavel:"Assessoria",investimento:"R$ 1.500–2.500",obs:"Assessoria contata Leandra Lima. Cacho Bar co-divulga. Bioma entra com os convites e o material de marca. O bar já tem a atmosfera — sem logística extra."},
+  {mes:"Junho",tipo:"Evento em Local Parceiro",projeto:"Alto da Lapa",titulo:"Café da manhã exclusivo — Leveda Padaria Natural",data:"Jun — sábado manhã",canal:"Evento em Local Parceiro",objetivo:"Awareness · Compradores",publico:"Prospects da região Alto da Lapa e leads do CRM",parceiro:"Leveda Padaria Natural — Mariana Galhardo (@leveda.pao, 28,1k) — R. Cerro Corá, 1965",responsavel:"Assessoria",investimento:"R$ 1.500–2.500",obs:"Assessoria contata Mariana Galhardo. Leveda co-divulga o evento. Ambiente premium já construído — sem logística extra."},
+  {mes:"Junho",tipo:"Patrocínio",projeto:"Apinajés",titulo:"Valet patrocinado — Flores Gastronomia (5 noites)",data:"Jun — 5 noites a combinar",canal:"Patrocínio · PDV Premium",objetivo:"Awareness · Compradores",publico:"Clientes do Flores Gastronomia — perfil alto padrão, Perdizes/Sumaré",parceiro:"Flores Gastronomia — Daniel Zivkovic (@floresgastronomia, 21,3k) — R. Piracuama, 128",responsavel:"Assessoria",investimento:"R$ 1.000–2.000",obs:"Assessoria contata Daniel Zivkovic. Card do Bioma com QR Code entregue junto ao ticket do valet."},
+  {mes:"Junho",tipo:"Evento no Stand",projeto:"Jardins",titulo:"Sessão de yoga no stand — edição Jardins",data:"Jun — sábado manhã",canal:"Evento no Stand + Instagram",objetivo:"Awareness · Compradores",publico:"Leads captados no Coffee Festival e prospects dos Jardins",parceiro:"Professora de yoga (a mapear pela assessoria)",responsavel:"Bioma",investimento:"R$ 800–1.500",obs:"Aproveitar o fluxo de leads do Coffee Festival para compor a lista de convidados. Assessoria indica a professora."},
+  {mes:"Junho",tipo:"Influencer",projeto:"Bioma",titulo:"Influencer de arquitetura / lifestyle — visita ao stand",data:"Jun",canal:"Instagram · Reels · Stories",objetivo:"Awareness",publico:"Seguidores de arquitetura, design e lifestyle em SP",parceiro:"Influencer a mapear pela assessoria (50k–300k seguidores)",responsavel:"Assessoria",investimento:"R$ 3.000–8.000",obs:"Assessoria mapeia shortlist com 3 a 5 perfis e apresenta para aprovação. Evitar perfis de moda ou beleza sem aderência ao produto. RAZ apoia na criação do briefing criativo."},
+  {mes:"Junho",tipo:"Digital",projeto:"Bioma",titulo:"Campanha de remarketing — base dos eventos de maio",data:"Jun–Jul",canal:"Meta Ads + Google Ads",objetivo:"Compradores · Vendas",publico:"Leads capturados nos eventos de maio",parceiro:"Agência digital parceira",responsavel:"RAZ",investimento:"R$ 2.000–4.000",obs:"Segmentar por nível de engajamento. Leads que visitaram a landing page têm prioridade."},
+  {mes:"Junho",tipo:"Evento em Local Parceiro",projeto:"Bioma",titulo:"São Paulo Coffee Festival — ativação co-branded",data:"26–28/Jun — Ibirapuera",canal:"Evento em Local Parceiro",objetivo:"Awareness",publico:"Consumidores de lifestyle premium e formadores de opinião",parceiro:"Torrefação parceira (a mapear pela assessoria)",responsavel:"Assessoria",investimento:"R$ 1.500–3.000",obs:"Assessoria busca torrefação ou cafeteria já inscrita no festival para co-branding dentro do evento. Sem estande próprio. RAZ apoia na criação do material de marca."},
+  {mes:"Junho",tipo:"Relacionamento VIP",projeto:"Bioma",titulo:"Jantar privado #1 — prospects VIP",data:"Jun — sexta à noite",canal:"Evento em Local Parceiro · VIP",objetivo:"Investidores · Vendas",publico:"Prospects VIP do pipeline — 12 a 16 convidados",parceiro:"Mesa III (@mesa3_pastificio, 36,4k) + Bona Casa de Música (@bona_casa_de_musica, 116k)",responsavel:"Assessoria",investimento:"R$ 3.000–5.000",obs:"Assessoria acessa e contata os dois parceiros. Sem pitch agressivo — a experiência no espaço faz a venda. Follow-up comercial 48h depois."},
+  {mes:"Julho",tipo:"Patrocínio",projeto:"Alto da Lapa",titulo:"Valet patrocinado — IPO Bar (5 noites)",data:"Jul — 5 noites a combinar",canal:"Patrocínio · PDV Premium",objetivo:"Awareness · Compradores",publico:"Frequentadores do IPO Bar — perfil alto padrão, Vila Ipojuca",parceiro:"IPO Bar — André Madrini (@ipobar, 22,4k) — Rua Mota Pais, 32",responsavel:"Assessoria",investimento:"R$ 1.000–2.000",obs:"Assessoria contata André Madrini. Formato simples e de alto impacto no público local."},
+  {mes:"Julho",tipo:"Digital",projeto:"Bioma",titulo:"Campanha geo — SPCity Marathon",data:"26/Jul",canal:"Meta Ads",objetivo:"Awareness · Base Lifestyle",publico:"Corredores e espectadores da maratona (perfil urbano, ativo, 30–50 anos)",parceiro:"Agência digital parceira",responsavel:"RAZ",investimento:"R$ 1.000–2.000",obs:"Campanha de 1 dia. Alto volume de impressões a baixo custo com segmentação geográfica precisa."},
+  {mes:"Julho",tipo:"Evento no Stand",projeto:"Bioma",titulo:"Sessão de pilates no stand — leads do marathon",data:"Jul — sábado pós-marathon",canal:"Evento no Stand + Instagram",objetivo:"Compradores · Relacionamento",publico:"Leads captados na campanha geo do SPCity Marathon",parceiro:"TC Pilates Perdizes (@tcpilates_studios, 44k)",responsavel:"Bioma",investimento:"R$ 800–1.500",obs:"CRM dispara convite 7 dias após a corrida. Assessoria mantém a relação com o TC Pilates."},
+  {mes:"Julho",tipo:"Evento em Local Parceiro",projeto:"Alto da Lapa",titulo:"Jantar exclusivo — Quinta de Santa Maria",data:"Jul — sexta à noite",canal:"Evento em Local Parceiro · VIP",objetivo:"Investidores · Vendas",publico:"Prospects VIP da região Alto da Lapa e leads quentes do pipeline",parceiro:"Quinta de Santa Maria — João da Mota (@quintadesantamariasp, 4,6k) — R. Cerro Corá, 1548",responsavel:"Assessoria",investimento:"R$ 3.000–5.000",obs:"Assessoria contata João da Mota e negocia reserva do espaço. Estimativa inclui espaço + menu fechado. 12 a 16 convidados."},
+  {mes:"Julho",tipo:"OOH",projeto:"Bioma",titulo:"Eletromidia — shopping premium + aeroporto",data:"Jul–Ago",canal:"OOH · Eletromidia · DOOH",objetivo:"Awareness · Investidores",publico:"Executivos, viajantes de negócio e consumidores A/B",parceiro:"Eletromidia / JCDecaux",responsavel:"Assessoria",investimento:"R$ 8.000–15.000/mês",obs:"Pontos: Iguatemi, JK Iguatemi e área de embarque do Aeroporto de Congonhas. Negociar pacote combinado com a ativação de maio."},
+  {mes:"Julho",tipo:"Influencer",projeto:"Bioma",titulo:"Influencer de gastronomia — conteúdo co-criado",data:"Jul",canal:"Instagram · Reels",objetivo:"Awareness",publico:"Amantes de gastronomia e lifestyle em SP",parceiro:"Influencer a mapear pela assessoria",responsavel:"Assessoria",investimento:"R$ 3.000–8.000",obs:"Assessoria levanta perfis com aderência a gastronomia, arquitetura e SP, e apresenta shortlist. RAZ apoia no briefing e na revisão do conteúdo."},
+  {mes:"Julho",tipo:"Relacionamento VIP",projeto:"Bioma",titulo:"Jantar privado #2 — leads maduros",data:"Jul — sexta à noite",canal:"Evento em Local Parceiro · VIP",objetivo:"Investidores · Vendas",publico:"Leads que já visitaram o stand (pipeline acima de 60 dias)",parceiro:"Manihi Sushi (@restaurantemanihisushi) ou Flores Gastronomia",responsavel:"Assessoria",investimento:"R$ 3.000–5.000",obs:"Assessoria confirma o local e os parceiros. CRM filtra leads com 2 ou mais interações sem fechamento. Momento decisivo de conversão."},
+  {mes:"Agosto",tipo:"Digital",projeto:"Bioma",titulo:"Campanha geo — ANDAV (Transamerica Expo Center)",data:"11–13/Ago",canal:"Meta Ads + Google Ads",objetivo:"Awareness · Base Agro",publico:"Distribuidores de insumos, agroinvestidores e profissionais do agro",parceiro:"Agência digital parceira",responsavel:"RAZ",investimento:"R$ 1.500–3.000",obs:"Reutilizar a landing page do Agrishow com adaptação para o perfil ANDAV. Unificar base agro para remarketing no Q4."},
+  {mes:"Agosto",tipo:"Evento no Stand",projeto:"Alto da Lapa",titulo:"Sessão de yoga no stand — edição Alto da Lapa",data:"Ago — sábado manhã",canal:"Evento no Stand + Instagram",objetivo:"Awareness · Compradores",publico:"Moradores e prospects da região Alto da Lapa",parceiro:"Prof. yoga (a mapear pela assessoria) + Leveda Padaria Natural (@leveda.pao, 28,1k)",responsavel:"Bioma",investimento:"R$ 1.000–2.000",obs:"Leveda fornece o café e co-divulga o evento. Assessoria indica e contata a professora."},
+  {mes:"Agosto",tipo:"Patrocínio",projeto:"Apinajés",titulo:"Valet patrocinado — Mesa III Pastifício (5 noites)",data:"Ago — 5 noites a combinar",canal:"Patrocínio · PDV Premium",objetivo:"Awareness · Compradores",publico:"Clientes do Mesa III — perfil alto padrão, Sumaré/Perdizes",parceiro:"Mesa III — Ana Soares (@mesa3_pastificio, 36,4k) — R. Dr. Paulo Vieira, 21",responsavel:"Assessoria",investimento:"R$ 1.000–2.000",obs:"Assessoria contata Ana Soares. Alto tráfego de público qualificado na porta do empreendimento."},
+  {mes:"Agosto",tipo:"Evento em Local Parceiro",projeto:"Apinajés",titulo:"Noite de música ao vivo — Bona Casa de Música",data:"Ago — uma noite de show",canal:"Evento em Local Parceiro",objetivo:"Awareness · Relacionamento",publico:"Frequentadores da Bona — cultura, música, lifestyle e alto padrão",parceiro:"Bona Casa de Música — Manuela Fagundes (@bona_casa_de_musica, 116k) — R. Dr. Paulo Vieira, 101",responsavel:"Assessoria",investimento:"R$ 2.000–4.000",obs:"Assessoria contata Manuela Fagundes. 116k seguidores — alto potencial de alcance com co-post. RAZ apoia na criação do material de divulgação."},
+  {mes:"Agosto",tipo:"Marca Parceira",projeto:"Apinajés / Alto da Lapa",titulo:"Pão de Açúcar — ativação de material no PDV",data:"Ago–Out",canal:"Marca Parceira · PDV",objetivo:"Awareness",publico:"Compradores premium e moradores da vizinhança",parceiro:"Pão de Açúcar — Rua Apinajés, 1147 (Sumaré) e R. Bairi, 435 (Alto da Lapa) — @paodeacucar",responsavel:"Assessoria",investimento:"R$ 500–1.500 (produção de material)",obs:"Assessoria contata a gerência de cada unidade. RAZ cria a brochura premium e o QR Code. Material posicionado na seção de vinhos e produtos gourmet."},
+  {mes:"Setembro",tipo:"Digital",projeto:"Bioma",titulo:"Campanha geo — AgroTech Expo (São José dos Campos)",data:"06–20/Set",canal:"Meta Ads + Google Ads",objetivo:"Awareness · Base Agro Tech",publico:"Empresas de bio-agro, agro tech e empreendedores do campo",parceiro:"Agência digital parceira",responsavel:"RAZ",investimento:"R$ 2.000–4.000",obs:"Unificar com as bases do Agrishow e do ANDAV para remarketing consolidado ao final de setembro."},
+  {mes:"Setembro",tipo:"Evento no Stand",projeto:"Apinajés",titulo:"Degustação de vinhos naturais no stand — Cacho Bar",data:"Set — quinta à noite",canal:"Evento no Stand · VIP",objetivo:"Compradores · Relacionamento",publico:"Leads da vizinhança Perdizes/Sumaré e pipeline VIP",parceiro:"Cacho Bar — Leandra Lima (@cachobar_sp, 12,9k)",responsavel:"Bioma",investimento:"R$ 2.000–3.500",obs:"Assessoria articula a parceria de curadoria com o Cacho Bar. Bioma organiza o evento no stand. Cacho Bar co-divulga nas redes."},
+  {mes:"Setembro",tipo:"Influencer",projeto:"Bioma",titulo:"Influencer — arquitetura sustentável (YouTube + IG)",data:"Set",canal:"YouTube + Instagram · Reels",objetivo:"Awareness · Compradores",publico:"Interessados em arquitetura, design e sustentabilidade",parceiro:"Influencer a mapear pela assessoria (80k–400k seguidores)",responsavel:"Assessoria",investimento:"R$ 5.000–15.000",obs:"Assessoria apresenta shortlist à Bioma para aprovação antes de qualquer contato. RAZ apoia no briefing criativo e na revisão do roteiro."},
+  {mes:"Setembro",tipo:"Patrocínio",projeto:"Alto da Lapa",titulo:"Valet patrocinado — Hilda Botequim (5 noites)",data:"Set — 5 noites a combinar",canal:"Patrocínio · PDV Premium",objetivo:"Awareness · Compradores",publico:"Frequentadores da Hilda Botequim — moradores da Vila Ipojuca e adjacências",parceiro:"Hilda Botequim — Alessandra Ramos (@hildabotequim, 16,2k) — Praça Sá Pinto, 67",responsavel:"Assessoria",investimento:"R$ 800–1.500",obs:"Assessoria contata Alessandra Ramos. Bar icônico da região com público fiel e recorrente."},
+  {mes:"Setembro",tipo:"Patrocínio",projeto:"Alto da Lapa",titulo:"Valet patrocinado — Vituccio Pizzeria (5 noites)",data:"Set — 5 noites a combinar",canal:"Patrocínio · PDV Premium",objetivo:"Awareness · Compradores",publico:"Frequentadores da Vituccio — perfil alto padrão, Vila Ipojuca",parceiro:"Vituccio Pizzeria — Paulo Henrique Oliveira de Farias (@vitucciopizzeria, 6,3k) — Rua Tonelero, 609",responsavel:"Assessoria",investimento:"R$ 800–1.500",obs:"Assessoria contata Paulo Henrique. Opção complementar à Hilda Botequim na mesma região."},
+  {mes:"Setembro",tipo:"Digital",projeto:"Bioma",titulo:"Campanha de reativação de leads frios",data:"Set",canal:"E-mail marketing + Meta Ads",objetivo:"Vendas",publico:"Leads do CRM sem interação nos últimos 90 dias",parceiro:"Agência digital parceira",responsavel:"RAZ",investimento:"R$ 1.000–2.000",obs:"RAZ segmenta por origem do lead e personaliza a mensagem. Oferta: visita exclusiva ao stand com experiência personalizada."},
+  {mes:"Outubro",tipo:"Evento em Local Parceiro",projeto:"Bioma",titulo:"GAFFFF — Global Agribusiness Festival",data:"01–02/Out — Allianz Parque",canal:"Evento em Local Parceiro + Digital Geo",objetivo:"Awareness · Investidores",publico:"Líderes do agronegócio, investidores e formadores de opinião",parceiro:"Parceiro expositor no GAFFFF (a mapear pela assessoria)",responsavel:"Assessoria",investimento:"R$ 2.000–5.000",obs:"Assessoria identifica e acessa empresa parceira já inscrita no GAFFFF para dividir o espaço. Sem estande próprio. RAZ ativa campanha geo durante o evento."},
+  {mes:"Outubro",tipo:"OOH",projeto:"Bioma",titulo:"Eletromidia — 'Realize seu projeto' (Q4)",data:"Out–Nov",canal:"OOH · Eletromidia",objetivo:"Vendas",publico:"Moradores dos bairros-alvo em momento de decisão",parceiro:"Eletromidia",responsavel:"Assessoria",investimento:"R$ 5.000–10.000/mês",obs:"Assessoria negocia o espaço. RAZ cria o criativo com posicionamento de exclusividade e escassez. Reforço simultâneo com campanha digital."},
+  {mes:"Outubro",tipo:"Evento no Stand",projeto:"Jardins",titulo:"Sessão de yoga + brunch — edição Jardins",data:"Out — sábado manhã",canal:"Evento no Stand + Instagram",objetivo:"Compradores · Vendas",publico:"Prospects dos Jardins e leads de alta renda",parceiro:"Prof. yoga (a mapear pela assessoria) + Casa Santa Luzia (@casasantaluzia, 207k)",responsavel:"Bioma",investimento:"R$ 2.000–3.500",obs:"Assessoria contata a Casa Santa Luzia (207k seguidores) — alto potencial de co-divulgação. Assessoria indica a professora. Bioma organiza o evento."},
+  {mes:"Outubro",tipo:"Patrocínio",projeto:"Jardins",titulo:"Valet patrocinado — La Braciera Pizzaria (5 noites)",data:"Out — 5 noites a combinar",canal:"Patrocínio · PDV Premium",objetivo:"Awareness · Compradores",publico:"Frequentadores da La Braciera — perfil alto padrão, Jardins/Paulista",parceiro:"La Braciera — Daniel Lucco (@labracierapizza, 564k) — Alameda Lorena, 1040",responsavel:"Assessoria",investimento:"R$ 1.500–2.500",obs:"Assessoria contata Daniel Lucco. 564k seguidores — potencial de stories e post co-branded além do valet. RAZ cria o card do Bioma."},
+  {mes:"Outubro",tipo:"Evento em Local Parceiro",projeto:"Jardins",titulo:"Jantar VIP — Veridiana Pizzaria",data:"Out — sexta à noite",canal:"Evento em Local Parceiro · VIP",objetivo:"Investidores · Vendas",publico:"Prospects VIP dos Jardins e leads de alta renda",parceiro:"Veridiana — Nina Loscalzo (@veridianapizzaria, 239k) — R. José Maria Lisboa, 493",responsavel:"Assessoria",investimento:"R$ 3.000–5.000",obs:"Assessoria contata Nina Loscalzo. 239k seguidores — co-post possível. 12 a 16 convidados. RAZ apoia na criação do convite."},
+  {mes:"Outubro",tipo:"Relacionamento VIP",projeto:"Bioma",titulo:"Jantar privado #3 — fechamento de ciclo Q3",data:"Out — sexta à noite",canal:"Evento em Local Parceiro · VIP",objetivo:"Vendas · Investidores",publico:"Pipeline ativo — leads VIP ainda não convertidos",parceiro:"La Braciera ou Veridiana Pizzaria",responsavel:"Assessoria",investimento:"R$ 3.000–5.000",obs:"Assessoria confirma o espaço e os parceiros. Criar senso de urgência. Apresentar escassez de unidades disponíveis."},
+  {mes:"Novembro",tipo:"Digital",projeto:"Bioma",titulo:"Campanha de conversão Q4 — base agro consolidada",data:"Nov",canal:"Meta Ads + Google Ads + E-mail",objetivo:"Vendas · Investidores",publico:"Base agro consolidada dos 3 eventos do ano (Agrishow + ANDAV + AgroTech)",parceiro:"Agência digital parceira",responsavel:"RAZ",investimento:"R$ 3.000–6.000",obs:"Base nutrida ao longo do ano recebe oferta de conversão no Q4. RAZ cria os criativos e gerencia as campanhas."},
+  {mes:"Novembro",tipo:"Influencer",projeto:"Bioma",titulo:"Influencer lifestyle — 'Um dia no Bioma'",data:"Nov",canal:"Instagram · TikTok · Reels",objetivo:"Awareness · Compradores",publico:"Público lifestyle urbano, 30–50 anos, SP, alta renda",parceiro:"Influencer a mapear pela assessoria (100k–500k seguidores)",responsavel:"Assessoria",investimento:"R$ 8.000–20.000",obs:"Assessoria mapeia e acessa o perfil. RAZ apoia no briefing criativo. Formato: experiência real no stand — autenticidade acima de produção excessiva."},
+  {mes:"Novembro",tipo:"Patrocínio",projeto:"Jardins",titulo:"Valet patrocinado — Gero Jardins / Les Deux Magots (5 noites)",data:"Nov — 5 noites a combinar",canal:"Patrocínio · PDV Premium",objetivo:"Awareness · Compradores",publico:"Frequentadores do Gero e do Les Deux Magots — perfil ultra-premium",parceiro:"Gero Jardins (@fasano, 709k) ou Les Deux Magots (@lesdeuxmagotsbrasil, 112k)",responsavel:"Assessoria",investimento:"R$ 2.000–4.000",obs:"Assessoria contata ambos e confirma o de maior disponibilidade. Gero Fasano (709k) tem maior alcance. RAZ cria o card do Bioma."},
+  {mes:"Novembro",tipo:"Evento em Local Parceiro",projeto:"Bioma",titulo:"Degustação de fim de ano — L'Entrecôte d'Olivier",data:"Nov — quinta à noite",canal:"Evento em Local Parceiro · VIP",objetivo:"Relacionamento · Vendas",publico:"Clientes compradores e prospects em decisão final",parceiro:"L'Entrecôte d'Olivier (@lentrecote.olivier) — cliente da assessoria",responsavel:"Assessoria",investimento:"R$ 3.000–5.000",obs:"Assessoria acessa o contato por ser cliente. Ceia francesa — storytelling europeu de alto padrão. RAZ apoia na criação do convite e do material."},
+  {mes:"Dezembro",tipo:"Evento em Local Parceiro",projeto:"Bioma",titulo:"Evento de encerramento — clientes, parceiros e investidores",data:"Dez — 1ª quinzena",canal:"Evento em Local Parceiro · Relacionamento",objetivo:"Fidelização · Relacionamento",publico:"Clientes compradores, parceiros estratégicos, influencers e imobiliárias",parceiro:"Refúgio Jardins (@refugiojardins, 20,4k) ou Les Deux Magots",responsavel:"Assessoria",investimento:"R$ 4.000–8.000",obs:"Assessoria acessa e confirma o local. Pedir indicações formalmente durante o evento. Clientes satisfeitos são o melhor canal de venda."},
+  {mes:"Dezembro",tipo:"Digital",projeto:"Bioma",titulo:"Campanha retrospectiva anual — brand awareness",data:"Dez",canal:"Instagram + YouTube + Meta",objetivo:"Awareness · Fidelização",publico:"Base total de seguidores e leads",parceiro:"Agência digital parceira",responsavel:"RAZ",investimento:"R$ 2.000–4.000",obs:"RAZ cria os conteúdos de retrospectiva. Alto volume de acesso nas redes durante as festas — momento ideal para reforçar a marca e preparar o ciclo seguinte."},
+  {mes:"Dezembro",tipo:"Marca Parceira",projeto:"Bioma",titulo:"Smartstore — smart home demo no stand",data:"Dez (ou antes)",canal:"Marca Parceira · Showroom",objetivo:"Vendas · Awareness",publico:"Visitantes do stand no Q4",parceiro:"Smartstore (@smartstorebr) — cliente da assessoria",responsavel:"Assessoria",investimento:"Permuta",obs:"Assessoria articula a cessão dos equipamentos em troca de presença de marca no stand. RAZ apoia na criação do material de co-branding."},
+];
+
+const PARCEIROS_DATA = [
+  {nome:"The House of Suntory",seg:"Destilados premium",seguidores:"Global",ig:"@thehouseofsuntory",acao:"Degustação VIP de whisky japonês no stand",projeto:"Bioma",tipo:"Evento no Stand"},
+  {nome:"TUCCA | Le Cordon Bleu",seg:"Gastronomia + terceiro setor",seguidores:"—",ig:"tucca.org.br",acao:"Patrocínio / cotas VIP no Festival TUCCA",projeto:"Bioma",tipo:"Relacionamento VIP"},
+  {nome:"TC Pilates Perdizes",seg:"Fitness premium",seguidores:"44k",ig:"@tcpilates_studios",acao:"Sessões de pilates no stand",projeto:"Apinajés",tipo:"Evento no Stand"},
+  {nome:"Manihi Sushi",seg:"Gastronomia japonesa",seguidores:"75,7k",ig:"@restaurantemanihisushi",acao:"Valet patrocinado + jantar VIP",projeto:"Apinajés",tipo:"Patrocínio"},
+  {nome:"Flores Gastronomia",seg:"Gastronomia",seguidores:"21,3k",ig:"@floresgastronomia",acao:"Valet patrocinado — 5 noites",projeto:"Apinajés",tipo:"Patrocínio"},
+  {nome:"Mesa III Pastifício",seg:"Gastronomia",seguidores:"36,4k",ig:"@mesa3_pastificio",acao:"Valet patrocinado + jantar VIP #1",projeto:"Apinajés",tipo:"Patrocínio"},
+  {nome:"Cacho Bar",seg:"Bar / Vinhos naturais",seguidores:"12,9k",ig:"@cachobar_sp",acao:"Noite de vinho + degustação no stand",projeto:"Apinajés",tipo:"Evento em Local Parceiro"},
+  {nome:"Bona Casa de Música",seg:"Música ao vivo",seguidores:"116k",ig:"@bona_casa_de_musica",acao:"Noite patrocinada + jantar VIP #1",projeto:"Apinajés",tipo:"Evento em Local Parceiro"},
+  {nome:"IPO Bar",seg:"Bar premium",seguidores:"22,4k",ig:"@ipobar",acao:"Valet patrocinado — 5 noites",projeto:"Alto da Lapa",tipo:"Patrocínio"},
+  {nome:"Hilda Botequim",seg:"Bar / Gastronomia",seguidores:"16,2k",ig:"@hildabotequim",acao:"Valet patrocinado — 5 noites",projeto:"Alto da Lapa",tipo:"Patrocínio"},
+  {nome:"Leveda Padaria Natural",seg:"Padaria saudável premium",seguidores:"28,1k",ig:"@leveda.pao",acao:"Café pós-yoga + café da manhã exclusivo",projeto:"Alto da Lapa",tipo:"Evento em Local Parceiro"},
+  {nome:"Quinta de Santa Maria",seg:"Restaurante",seguidores:"4,6k",ig:"@quintadesantamariasp",acao:"Jantar exclusivo VIP",projeto:"Alto da Lapa",tipo:"Evento em Local Parceiro"},
+  {nome:"Vituccio Pizzeria",seg:"Pizzaria",seguidores:"6,3k",ig:"@vitucciopizzeria",acao:"Valet patrocinado — 5 noites",projeto:"Alto da Lapa",tipo:"Patrocínio"},
+  {nome:"La Braciera Pizzaria",seg:"Pizzaria premium",seguidores:"564k",ig:"@labracierapizza",acao:"Valet patrocinado + jantar VIP #3",projeto:"Jardins",tipo:"Patrocínio"},
+  {nome:"Veridiana Pizzaria",seg:"Pizzaria icônica",seguidores:"239k",ig:"@veridianapizzaria",acao:"Jantar VIP dos Jardins",projeto:"Jardins",tipo:"Evento em Local Parceiro"},
+  {nome:"Gero Jardins (Fasano)",seg:"Alta gastronomia",seguidores:"709k",ig:"@fasano",acao:"Valet patrocinado — 5 noites",projeto:"Jardins",tipo:"Patrocínio"},
+  {nome:"Les Deux Magots",seg:"Bistrô francês premium",seguidores:"112k",ig:"@lesdeuxmagotsbrasil",acao:"Valet + evento de encerramento",projeto:"Jardins",tipo:"Patrocínio"},
+  {nome:"Casa Santa Luzia",seg:"Empório premium",seguidores:"207k",ig:"@casasantaluzia",acao:"Brunch pós-yoga — edição Jardins",projeto:"Jardins",tipo:"Evento no Stand"},
+  {nome:"L'Entrecôte d'Olivier",seg:"Gastronomia francesa",seguidores:"—",ig:"@lentrecote.olivier",acao:"Degustação de fim de ano",projeto:"Bioma",tipo:"Evento em Local Parceiro"},
+  {nome:"Refúgio Jardins",seg:"Restaurante",seguidores:"20,4k",ig:"@refugiojardins",acao:"Evento de encerramento 2026",projeto:"Bioma",tipo:"Evento em Local Parceiro"},
+  {nome:"Philco",seg:"Eletrodomésticos",seguidores:"Nacional",ig:"@philcobrasil",acao:"Eletros no stand — permuta",projeto:"Bioma",tipo:"Marca Parceira"},
+  {nome:"Britânia",seg:"Eletrodomésticos",seguidores:"Nacional",ig:"@britaniaeletros",acao:"Linha de cozinha e cafeteira no stand",projeto:"Bioma",tipo:"Marca Parceira"},
+  {nome:"Smartstore",seg:"Tecnologia / Smart Home",seguidores:"—",ig:"@smartstorebr",acao:"Smart home demo no stand",projeto:"Bioma",tipo:"Marca Parceira"},
+  {nome:"Pão de Açúcar",seg:"Supermercado premium",seguidores:"769k",ig:"@paodeacucar",acao:"Ativação material PDV (2 unidades)",projeto:"Apinajés / Alto da Lapa",tipo:"Marca Parceira"},
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let filtroTipo = "Todos";
+let filtrosMes = new Set(MESES);
+
+// ─── SECTION SWITCH ───────────────────────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if(id==='gantt') renderGantt();
+  if(id==='parceiros') renderParceiros();
+}
+
+// ─── AÇÕES ────────────────────────────────────────────────────────────────────
+function renderStats(){
+  const v = ACOES.filter(a=>(filtroTipo==='Todos'||a.tipo===filtroTipo)&&filtrosMes.has(a.mes));
+  const byTipo={};
+  v.forEach(a=>{byTipo[a.tipo]=(byTipo[a.tipo]||0)+1});
+  const top=Object.entries(byTipo).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('stats-row').innerHTML=`
+    <div class="stat-card"><div class="stat-card-n">${v.length}</div><div class="stat-card-l">ações selecionadas</div></div>
+    <div class="stat-card"><div class="stat-card-n">${[...new Set(v.map(a=>a.mes))].length}</div><div class="stat-card-l">meses ativos</div></div>
+    <div class="stat-card"><div class="stat-card-n" style="font-size:16px">${top?top[0].split(' ')[0]:'—'}</div><div class="stat-card-l">pilar principal</div></div>
+    <div class="stat-card"><div class="stat-card-n">${[...new Set(v.map(a=>a.projeto.split('/')[0].trim()))].length}</div><div class="stat-card-l">projetos cobertos</div></div>
+  `;
+}
+
+function renderFilters(){
+  const tipos=['Todos',...Object.keys(TIPOS)];
+  document.getElementById('filters').innerHTML=tipos.map(t=>{
+    const s=TIPOS[t]||{};
+    const active=filtroTipo===t;
+    return `<button class="fbtn${active?' active':''}" style="${active?`background:${s.bg};border-color:${s.bg};color:#fff`:''}" onclick="setFiltro('${t}')">${t}</button>`;
+  }).join('');
+}
+
+function renderMonthFilters(){
+  document.getElementById('monthFilters').innerHTML=MESES.map(m=>{
+    const active=filtrosMes.has(m);
+    return `<button class="mbtn${active?' active':''}" onclick="toggleMes('${m}')">${m}</button>`;
+  }).join('');
+}
+
+function toggleCard(id){
+  const d=document.getElementById('d-'+id);
+  const b=document.getElementById('b-'+id);
+  if(d.classList.contains('open')){d.classList.remove('open');b.textContent='ver mais';}
+  else{d.classList.add('open');b.textContent='fechar';}
+}
+
+function renderBoard(){
+  const v=ACOES.filter(a=>(filtroTipo==='Todos'||a.tipo===filtroTipo)&&filtrosMes.has(a.mes));
+  if(!v.length){document.getElementById('board').innerHTML='<div class="empty-msg">Nenhuma ação para os filtros selecionados.</div>';return;}
+  const byMes={};MESES.forEach(m=>{byMes[m]=[]});
+  v.forEach(a=>byMes[a.mes].push(a));
+  document.getElementById('board').innerHTML=MESES.filter(m=>byMes[m].length).map(mes=>{
+    const cards=byMes[mes].map((a,i)=>{
+      const id='c'+ACOES.indexOf(a);
+      const s=TIPOS[a.tipo]||{bg:'#888',light:'#eee',dark:'#333'};
+      const fields=[
+        ['Canal',a.canal],['Objetivo',a.objetivo],['Público-alvo',a.publico],
+        ['Parceiro mapeado',a.parceiro],['Responsável',a.responsavel],
+        ['Estimativa de investimento',a.investimento],['Mecânica / Obs.',a.obs]
+      ];
+      return `<div class="card" style="border-left-color:${s.bg}">
+        <div class="card-head" onclick="toggleCard('${id}')">
+          <span class="card-type-pill" style="background:${s.light};color:${s.dark}">${a.tipo}</span>
+          <div class="card-title">${a.titulo}</div>
+          <div class="card-date">${a.data}</div>
+        </div>
+        <div class="card-foot" onclick="toggleCard('${id}')">
+          <span class="pill">${a.projeto}</span>
+          <span class="pill">${a.objetivo.split('·')[0].trim()}</span>
+          <span class="expand-btn" id="b-${id}">ver mais</span>
+        </div>
+        <div class="detail" id="d-${id}">
+          ${fields.map(([k,v])=>`<div class="detail-row"><div class="detail-key">${k}</div><div class="detail-val">${v}</div></div>`).join('')}
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="month-group"><div class="month-hd">${mes} &nbsp;·&nbsp; ${byMes[mes].length} ação${byMes[mes].length>1?'ões':''}</div><div class="cards-grid">${cards}</div></div>`;
+  }).join('');
+}
+
+function setFiltro(t){filtroTipo=t;renderAll();}
+function toggleMes(m){if(filtrosMes.has(m)){if(filtrosMes.size>1)filtrosMes.delete(m);}else filtrosMes.add(m);renderAll();}
+function renderAll(){renderStats();renderFilters();renderMonthFilters();renderBoard();}
+renderAll();
+
+// ─── GANTT ────────────────────────────────────────────────────────────────────
+function renderGantt(){
+  const W=900, LW=148, TW=W-LW, mw=TW/8;
+  const GANTT_ROWS = [
+    {label:"OOH",sub:"Eletromidia",cor:"#185FA5",bars:[
+      {x:0,w:2,label:"Elevadores premium"},{x:2,w:2,label:"Shopping + aeroporto"},{x:4,w:0,label:""},{x:5,w:2,label:"Q4 — escassez"}
+    ]},
+    {label:"Digital",sub:"Campanhas",cor:"#3B6D11",rows:[
+      {sublabel:"Geo",bars:[{x:0,w:.5,label:"Agrishow"},{x:.4,w:.3,label:"SPIW"},{x:2,w:.4,label:"Marathon"},{x:3,w:.4,label:"ANDAV"},{x:4,w:.9,label:"AgroTech"},{x:5,w:.4,label:"GAFFFF"}]},
+      {sublabel:"Camp.",bars:[{x:1,w:2,label:"Remarketing base mai"},{x:4,w:.9,label:"Reativação frios"},{x:5.8,w:.8,label:"Conv. Q4"},{x:7,w:1,label:"Retrospectiva"}]}
+    ]},
+    {label:"Stand",sub:"Eventos próprios",cor:"#BA7517",rows:[
+      {sublabel:"Yoga",bars:[{x:0,w:.8,label:"Bioma"},{x:1,w:.8,label:"Jardins"},{x:3,w:.8,label:"Alto da Lapa"},{x:5,w:.9,label:"Yoga + Brunch"}]},
+      {sublabel:"Pilates/Deg.",bars:[{x:0,w:.8,label:"Pilates+Suntory"},{x:2,w:.8,label:"Pós-marathon"},{x:4,w:.8,label:"Deg. vinhos"},{x:6,w:.8,label:"Deg. fim de ano"}]}
+    ]},
+    {label:"Local Parceiro",sub:"Eventos externos",cor:"#993C1D",rows:[
+      {sublabel:"Gastro",bars:[{x:1,w:.8,label:"Cacho Bar"},{x:1,w:.8,label:"Leveda"},{x:3,w:.8,label:"Bona Música"},{x:1.6,w:.7,label:"Coffee Fest."}]},
+      {sublabel:"Jantares VIP",bars:[{x:2,w:.8,label:"Qta. Sta. Maria"},{x:5,w:.8,label:"Veridiana"},{x:5,w:.8,label:"GAFFFF"},{x:6,w:.8,label:"L'Entrecôte"},{x:7,w:.8,label:"Encerramento"}]}
+    ]},
+    {label:"Influencers",sub:"Conteúdo orgânico",cor:"#534AB7",bars:[
+      {x:1,w:.9,label:"Arq./Lifestyle"},{x:2,w:.9,label:"Gastronomia"},{x:4,w:.9,label:"Arq. sustentável"},{x:6,w:.9,label:"Lifestyle"}
+    ]},
+    {label:"Marcas",sub:"Parceiras",cor:"#0F6E56",rows:[
+      {sublabel:"Permuta",bars:[{x:0,w:8,label:"Philco + Britânia — stand equipado (contínuo)"}]},
+      {sublabel:"PDV",bars:[{x:3,w:3,label:"Pão de Açúcar — PDV ativo"},{x:7,w:1,label:"Smartstore"}]}
+    ]},
+    {label:"Valet",sub:"Patrocínio",cor:"#993556",rows:[
+      {sublabel:"Apinajés",bars:[{x:0,w:.8,label:"Manihi"},{x:1,w:.8,label:"Flores"},{x:3,w:.8,label:"Mesa III"}]},
+      {sublabel:"Alto da Lapa",bars:[{x:2,w:.8,label:"IPO Bar"},{x:4,w:.8,label:"Hilda"},{x:4.82,w:.8,label:"Vituccio"}]},
+      {sublabel:"Jardins",bars:[{x:5,w:.8,label:"La Braciera"},{x:6,w:.8,label:"Gero/Les Deux"}]}
+    ]},
+    {label:"VIP",sub:"Relacionamento",cor:"#444441",bars:[
+      {x:0,w:.45,label:"Suntory"},{x:0.46,w:.5,label:"TUCCA"},{x:1,w:.8,label:"Jantar #1"},{x:2,w:.8,label:"Jantar #2"},{x:5,w:.8,label:"Jantar #3"},{x:7,w:.8,label:"Encerramento"}
+    ]},
+  ];
+  const MONTHS=["Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+  const ROW_H=28, SUBROW_H=22, HEADER_H=32, PAD=16;
+  let y=HEADER_H+PAD;
+  let svgRows=[];
+  let totalH=HEADER_H+PAD;
+  GANTT_ROWS.forEach(row=>{
+    if(row.rows){totalH+=ROW_H+(row.rows.length*SUBROW_H)+6;}
+    else{totalH+=ROW_H;}
+    totalH+=4;
+  });
+  totalH+=PAD;
+  let svgH=totalH;
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${svgH}" width="100%" style="display:block">`;
+  svg+=`<rect width="${W}" height="${svgH}" fill="#fff"/>`;
+  svg+=`<rect y="0" width="${W}" height="${HEADER_H}" fill="#1A3C2A"/>`;
+  MONTHS.forEach((m,i)=>{
+    const cx=LW+(i+.5)*mw;
+    svg+=`<text x="${cx}" y="${HEADER_H/2+5}" text-anchor="middle" font-size="11" fill="#fff" font-family="sans-serif" font-weight="500">${m}</text>`;
+    if(i>0) svg+=`<line x1="${LW+i*mw}" y1="0" x2="${LW+i*mw}" y2="${svgH}" stroke="#e8e5e0" stroke-width=".5"/>`;
+  });
+  svg+=`<line x1="${LW}" y1="0" x2="${LW}" y2="${svgH}" stroke="#ddd" stroke-width=".5"/>`;
+  y=HEADER_H+PAD;
+  GANTT_ROWS.forEach((row,ri)=>{
+    const bandH=row.rows?(ROW_H+row.rows.length*SUBROW_H+6):ROW_H;
+    svg+=`<rect x="0" y="${y-4}" width="${W}" height="${bandH+8}" fill="${ri%2===0?'#fafaf8':'#f5f4f0'}"/>`;
+    svg+=`<rect x="0" y="${y-4}" width="4" height="${bandH+8}" fill="${row.cor}"/>`;
+    svg+=`<text x="10" y="${y+12}" font-size="11" font-weight="500" fill="${row.cor}" font-family="sans-serif">${row.label}</text>`;
+    svg+=`<text x="10" y="${y+24}" font-size="9" fill="#999" font-family="sans-serif">${row.sub}</text>`;
+    if(row.bars){
+      row.bars.forEach(b=>{
+        if(!b.label) return;
+        const bx=LW+b.x*mw+2, bw=b.w*mw-4;
+        svg+=`<rect x="${bx}" y="${y}" width="${bw}" height="18" rx="3" fill="${row.cor}" opacity=".85"/>`;
+        if(bw>30) svg+=`<text x="${bx+bw/2}" y="${y+12}" text-anchor="middle" font-size="8.5" fill="#fff" font-family="sans-serif">${b.label}</text>`;
+      });
+      y+=ROW_H;
+    } else if(row.rows){
+      y+=ROW_H-4;
+      row.rows.forEach(sr=>{
+        svg+=`<text x="14" y="${y+13}" font-size="8.5" fill="${row.cor}" opacity=".7" font-family="sans-serif">${sr.sublabel}</text>`;
+        sr.bars.forEach(b=>{
+          const bx=LW+b.x*mw+2, bw=b.w*mw-4;
+          svg+=`<rect x="${bx}" y="${y}" width="${Math.max(bw,8)}" height="16" rx="3" fill="${row.cor}" opacity="${sr.sublabel.includes('cont')?'.5':'.82'}"/>`;
+          if(bw>28) svg+=`<text x="${bx+bw/2}" y="${y+11}" text-anchor="middle" font-size="7.5" fill="#fff" font-family="sans-serif">${b.label}</text>`;
+        });
+        y+=SUBROW_H;
+      });
+      y+=2;
+    }
+    y+=4;
+    svg+=`<line x1="0" y1="${y-2}" x2="${W}" y2="${y-2}" stroke="#e8e5e0" stroke-width=".5"/>`;
+  });
+  svg+=`</svg>`;
+  document.getElementById('gantt-container').innerHTML=svg;
+  document.getElementById('gantt-legend').innerHTML=Object.entries(TIPOS).map(([t,s])=>`
+    <div class="gantt-legend-item">
+      <span class="gantt-legend-dot" style="background:${s.bg}"></span>${t}
+    </div>`).join('');
+}
+
+// ─── PARCEIROS ────────────────────────────────────────────────────────────────
+function renderParceiros(){
+  const projCor={
+    "Bioma":"#1A3C2A","Apinajés":"#BA7517","Alto da Lapa":"#185FA5",
+    "Jardins":"#993556","Apinajés / Alto da Lapa":"#0F6E56"
+  };
+  document.getElementById('parceiros-grid').innerHTML=PARCEIROS_DATA.map(p=>{
+    const cor=projCor[p.projeto]||"#888";
+    const initials=p.nome.split(' ').slice(0,2).map(w=>w[0]).join('');
+    const tipoCor=TIPOS[p.tipo]||{light:'#eee',dark:'#555'};
+    return `<div class="parceiro-card">
+      <div class="parceiro-header">
+        <div class="parceiro-avatar" style="background:${cor}22;color:${cor}">${initials}</div>
+        <div>
+          <div class="parceiro-name">${p.nome}</div>
+          <div class="parceiro-seg">${p.seg} &nbsp;·&nbsp; ${p.seguidores} seg.</div>
+        </div>
+      </div>
+      <div class="parceiro-body">
+        <strong style="color:#333">Ação:</strong> ${p.acao}<br>
+        <strong style="color:#333">Contato:</strong> ${p.ig}
+      </div>
+      <div>
+        <span class="parceiro-tag" style="background:${cor}18;color:${cor}">${p.projeto}</span>
+        <span class="parceiro-tag" style="background:${tipoCor.light};color:${tipoCor.dark}">${p.tipo}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+</script>
+</body>
+</html>
